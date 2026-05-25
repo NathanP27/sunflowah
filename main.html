@@ -1,0 +1,525 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>I Love You Always</title>  <style>
+    :root {
+      --cream: #fff7d8;
+      --pink: #ffe6f3;
+      --lavender: #eadcff;
+      --purple: #a78bfa;
+      --deep-purple: #5b3a86;
+      --yellow: #ffd65a;
+      --gold: #f4a62a;
+      --brown: #76462b;
+      --leaf: #78b77b;
+      --leaf-dark: #5c9964;
+      --text: #5a3475;
+      --card: rgba(255, 255, 255, 0.42);
+      --shadow: rgba(91, 58, 134, 0.18);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+    }
+
+    body {
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(1rem, 4vw, 2.5rem);
+      color: var(--text);
+      font-family: "Trebuchet MS", "Segoe UI", system-ui, sans-serif;
+      overflow-x: hidden;
+      background:
+        radial-gradient(circle at 18% 16%, rgba(255, 247, 216, 0.95), transparent 32%),
+        radial-gradient(circle at 82% 22%, rgba(255, 230, 243, 0.92), transparent 30%),
+        radial-gradient(circle at 50% 92%, rgba(167, 139, 250, 0.32), transparent 38%),
+        linear-gradient(145deg, #fff8df 0%, #f9e7ff 48%, #e7dcff 100%);
+      isolation: isolate;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      border-radius: 999px;
+      pointer-events: none;
+      z-index: -2;
+      filter: blur(3px);
+      opacity: 0.75;
+      animation: floatBlob 12s ease-in-out infinite alternate;
+    }
+
+    body::before {
+      width: 34vmax;
+      height: 34vmax;
+      top: -14vmax;
+      right: -12vmax;
+      background: rgba(167, 139, 250, 0.22);
+    }
+
+    body::after {
+      width: 28vmax;
+      height: 28vmax;
+      left: -10vmax;
+      bottom: -12vmax;
+      background: rgba(255, 214, 90, 0.24);
+      animation-delay: -4s;
+    }
+
+    .page {
+      width: min(100%, 720px);
+      min-height: min(92svh, 850px);
+      display: grid;
+      place-items: center;
+    }
+
+    .gift-card {
+      width: min(100%, 620px);
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+      border-radius: clamp(1.6rem, 5vw, 3rem);
+      padding: clamp(1.4rem, 5vw, 3rem);
+      border: 1px solid rgba(255, 255, 255, 0.56);
+      background: var(--card);
+      box-shadow: 0 28px 80px var(--shadow);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+
+    .gift-card::before {
+      content: "";
+      position: absolute;
+      inset: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      border-radius: calc(clamp(1.6rem, 5vw, 3rem) - 0.6rem);
+      pointer-events: none;
+    }
+
+    .hint {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      margin-bottom: clamp(0.9rem, 2.4vw, 1.35rem);
+      padding: 0.5rem 0.85rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.5);
+      color: var(--deep-purple);
+      font-size: clamp(0.82rem, 2.4vw, 0.98rem);
+      line-height: 1;
+      user-select: none;
+      box-shadow: 0 10px 30px rgba(91, 58, 134, 0.08);
+    }
+
+    .flower-button {
+      width: min(74vw, 360px);
+      aspect-ratio: 1;
+      margin: 0 auto;
+      display: grid;
+      place-items: center;
+      position: relative;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      outline: none;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .flower-button:focus-visible {
+      border-radius: 50%;
+      box-shadow: 0 0 0 5px rgba(167, 139, 250, 0.34);
+    }
+
+    .flower-glow {
+      position: absolute;
+      width: 72%;
+      height: 72%;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 214, 90, 0.5), rgba(255, 230, 243, 0.14) 58%, transparent 72%);
+      opacity: 0.62;
+      filter: blur(5px);
+      transform: scale(0.92);
+      transition: transform 350ms ease, opacity 350ms ease;
+      animation: softPulse 3.8s ease-in-out infinite;
+    }
+
+    .flower {
+      position: relative;
+      width: 82%;
+      height: 82%;
+      display: grid;
+      place-items: center;
+      transform-origin: 50% 58%;
+      transition: transform 300ms ease;
+      will-change: transform;
+      animation: floatFlower 5.5s ease-in-out infinite;
+    }
+
+    .petal-ring {
+      position: absolute;
+      inset: 13%;
+      transform-origin: center;
+      animation: slowSpin 28s linear infinite;
+      will-change: transform;
+    }
+
+    .petal {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 25%;
+      height: 42%;
+      border-radius: 55% 55% 48% 48%;
+      background: linear-gradient(180deg, #ffe683 0%, var(--yellow) 50%, var(--gold) 100%);
+      box-shadow: inset 0 -10px 18px rgba(244, 166, 42, 0.18), 0 8px 18px rgba(244, 166, 42, 0.16);
+      transform-origin: 50% 100%;
+      will-change: transform;
+    }
+
+    .petal::after {
+      content: "";
+      position: absolute;
+      inset: 13% 38% 18%;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .petal:nth-child(1) { transform: translate(-50%, -100%) rotate(0deg); }
+    .petal:nth-child(2) { transform: translate(-50%, -100%) rotate(30deg); }
+    .petal:nth-child(3) { transform: translate(-50%, -100%) rotate(60deg); }
+    .petal:nth-child(4) { transform: translate(-50%, -100%) rotate(90deg); }
+    .petal:nth-child(5) { transform: translate(-50%, -100%) rotate(120deg); }
+    .petal:nth-child(6) { transform: translate(-50%, -100%) rotate(150deg); }
+    .petal:nth-child(7) { transform: translate(-50%, -100%) rotate(180deg); }
+    .petal:nth-child(8) { transform: translate(-50%, -100%) rotate(210deg); }
+    .petal:nth-child(9) { transform: translate(-50%, -100%) rotate(240deg); }
+    .petal:nth-child(10) { transform: translate(-50%, -100%) rotate(270deg); }
+    .petal:nth-child(11) { transform: translate(-50%, -100%) rotate(300deg); }
+    .petal:nth-child(12) { transform: translate(-50%, -100%) rotate(330deg); }
+
+    .center {
+      position: absolute;
+      width: 34%;
+      height: 34%;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 36% 34%, rgba(255, 255, 255, 0.2), transparent 22%),
+        radial-gradient(circle, #9a6139 0 12%, var(--brown) 13% 100%);
+      box-shadow: inset 0 -10px 18px rgba(65, 36, 22, 0.22), 0 10px 24px rgba(118, 70, 43, 0.2);
+      z-index: 4;
+    }
+
+    .center::before {
+      content: "";
+      position: absolute;
+      inset: 16%;
+      border-radius: 50%;
+      background-image:
+        radial-gradient(circle, rgba(255, 231, 163, 0.9) 1.4px, transparent 1.8px),
+        radial-gradient(circle, rgba(70, 36, 20, 0.32) 1.2px, transparent 1.8px);
+      background-size: 13px 13px, 10px 10px;
+      background-position: 0 0, 4px 5px;
+      opacity: 0.72;
+    }
+
+    .stem {
+      position: absolute;
+      width: 4.5%;
+      height: 38%;
+      top: 56%;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--leaf-dark), var(--leaf));
+      z-index: 1;
+      box-shadow: inset -4px 0 8px rgba(56, 100, 60, 0.2);
+    }
+
+    .leaf {
+      position: absolute;
+      width: 25%;
+      height: 13%;
+      top: 70%;
+      border-radius: 100% 0 100% 0;
+      background: linear-gradient(145deg, #9ad69d, var(--leaf));
+      z-index: 2;
+      box-shadow: 0 8px 18px rgba(92, 153, 100, 0.16);
+    }
+
+    .leaf.left {
+      left: 33%;
+      transform: rotate(-24deg);
+    }
+
+    .leaf.right {
+      right: 32%;
+      transform: scaleX(-1) rotate(-24deg);
+    }
+
+    .flower-button:hover .flower,
+    .flower-button.is-touched .flower {
+      transform: scale(1.055) rotate(-2deg);
+    }
+
+    .flower-button:hover .flower-glow,
+    .flower-button.is-touched .flower-glow {
+      opacity: 0.98;
+      transform: scale(1.08);
+    }
+
+    .flower-button:hover .petal-ring,
+    .flower-button.is-touched .petal-ring {
+      animation-duration: 16s;
+    }
+
+    .flower-button:hover .petal,
+    .flower-button.is-touched .petal {
+      animation: petalWiggle 720ms ease-in-out infinite alternate;
+    }
+
+    .flower-button:active .flower {
+      transform: scale(0.98) rotate(3deg);
+    }
+
+    .message {
+      margin-top: clamp(1rem, 3vw, 1.8rem);
+      position: relative;
+      z-index: 2;
+    }
+
+    .message p {
+      font-size: clamp(1.6rem, 5.6vw, 2.65rem);
+      line-height: 1.15;
+      letter-spacing: -0.04em;
+      color: var(--deep-purple);
+      text-shadow: 0 2px 16px rgba(255, 255, 255, 0.6);
+      font-weight: 800;
+    }
+
+    .message span {
+      display: block;
+      margin-top: 0.45rem;
+      font-size: clamp(1.15rem, 3.8vw, 1.65rem);
+      color: #8b5dc2;
+      font-weight: 700;
+    }
+
+    .small-love {
+      margin-top: clamp(0.85rem, 3vw, 1.2rem);
+      font-size: clamp(0.9rem, 2.8vw, 1rem);
+      color: rgba(90, 52, 117, 0.72);
+    }
+
+    .particle {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      z-index: 10;
+      pointer-events: none;
+      font-size: clamp(1rem, 3vw, 1.3rem);
+      animation: popParticle 900ms ease-out forwards;
+      will-change: transform, opacity;
+      filter: drop-shadow(0 6px 10px rgba(91, 58, 134, 0.16));
+    }
+
+    .floating-heart {
+      position: fixed;
+      z-index: -1;
+      color: rgba(139, 92, 246, 0.22);
+      font-size: clamp(0.9rem, 2vw, 1.25rem);
+      pointer-events: none;
+      animation: drift 9s linear infinite;
+    }
+
+    .floating-heart:nth-child(1) { left: 8%; top: 14%; animation-delay: -1s; }
+    .floating-heart:nth-child(2) { left: 78%; top: 12%; animation-delay: -3s; }
+    .floating-heart:nth-child(3) { left: 18%; top: 78%; animation-delay: -5s; }
+    .floating-heart:nth-child(4) { left: 86%; top: 72%; animation-delay: -7s; }
+
+    @keyframes floatBlob {
+      from { transform: translate3d(0, 0, 0) scale(1); }
+      to { transform: translate3d(3vw, 2vh, 0) scale(1.08); }
+    }
+
+    @keyframes softPulse {
+      0%, 100% { transform: scale(0.92); opacity: 0.58; }
+      50% { transform: scale(1.03); opacity: 0.82; }
+    }
+
+    @keyframes floatFlower {
+      0%, 100% { translate: 0 0; }
+      50% { translate: 0 -8px; }
+    }
+
+    @keyframes slowSpin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes petalWiggle {
+      from { filter: brightness(1); }
+      to { filter: brightness(1.04); }
+    }
+
+    @keyframes popParticle {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.35) rotate(0deg);
+      }
+      18% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(1.1) rotate(var(--r));
+      }
+    }
+
+    @keyframes drift {
+      0% { transform: translate3d(0, 0, 0) rotate(0deg); opacity: 0; }
+      20% { opacity: 1; }
+      100% { transform: translate3d(0, -46px, 0) rotate(18deg); opacity: 0; }
+    }
+
+    @media (max-width: 430px) {
+      .gift-card {
+        padding: 1.15rem;
+      }
+
+      .gift-card::before {
+        inset: 0.7rem;
+      }
+
+      .flower-button {
+        width: min(82vw, 310px);
+      }
+
+      .small-love {
+        max-width: 24ch;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+
+    @media (min-width: 900px) {
+      .gift-card:hover {
+        box-shadow: 0 32px 90px rgba(91, 58, 134, 0.22);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style></head><body>
+  <span class="floating-heart">♡</span>
+  <span class="floating-heart">✦</span>
+  <span class="floating-heart">♡</span>
+  <span class="floating-heart">✧</span>  <main class="page">
+    <section class="gift-card" aria-label="A romantic sunflower gift website">
+      <div class="hint">♡ Tap the sunflower</div><button class="flower-button" id="flowerButton" aria-label="Tap the sunflower for hearts and sparkles">
+    <span class="flower-glow"></span>
+
+    <span class="flower" aria-hidden="true">
+      <span class="stem"></span>
+      <span class="leaf left"></span>
+      <span class="leaf right"></span>
+
+      <span class="petal-ring">
+        <span class="petal"></span>
+        <span class="petal"></span>
+        <span class="petal"></span>
+        <span class="petal"></span>
+        <span class="petal"></span>
+        <span class="petal"></span>
+        <span class="petal"></span>
+        <span class="petal"></span>
+        <span class="petal"></span>
+        <span class="petal"></span>
+        <span class="petal"></span>
+        <span class="petal"></span>
+      </span>
+
+      <span class="center"></span>
+    </span>
+  </button>
+
+  <div class="message">
+    <p>I love you always, baby!</p>
+    <span>Nathan</span>
+  </div>
+
+  <p class="small-love">A little sunflower made with love.</p>
+</section>
+
+  </main>  <script>
+    const flowerButton = document.querySelector("#flowerButton");
+    const symbols = ["♡", "♥", "✦", "✧", "❀"];
+
+    function createParticles() {
+      const amount = window.innerWidth < 480 ? 12 : 18;
+
+      for (let i = 0; i < amount; i += 1) {
+        const particle = document.createElement("span");
+        const angle = (Math.PI * 2 * i) / amount;
+        const distance = 72 + Math.random() * 52;
+        const x = Math.cos(angle) * distance;
+        const y = Math.sin(angle) * distance;
+        const rotate = `${Math.random() * 120 - 60}deg`;
+
+        particle.className = "particle";
+        particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        particle.style.setProperty("--x", `${x}px`);
+        particle.style.setProperty("--y", `${y}px`);
+        particle.style.setProperty("--r", rotate);
+
+        flowerButton.appendChild(particle);
+
+        window.setTimeout(() => {
+          particle.remove();
+        }, 920);
+      }
+    }
+
+    function playTapAnimation() {
+      flowerButton.classList.add("is-touched");
+      createParticles();
+
+      window.setTimeout(() => {
+        flowerButton.classList.remove("is-touched");
+      }, 650);
+    }
+
+    flowerButton.addEventListener("click", playTapAnimation);
+
+    flowerButton.addEventListener("pointerdown", () => {
+      flowerButton.classList.add("is-touched");
+    });
+
+    flowerButton.addEventListener("pointerup", () => {
+      window.setTimeout(() => {
+        flowerButton.classList.remove("is-touched");
+      }, 350);
+    });
+
+    flowerButton.addEventListener("pointerleave", () => {
+      flowerButton.classList.remove("is-touched");
+    });
+  </script></body>
+</html>
